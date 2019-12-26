@@ -69,7 +69,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   const jwks = auth0certificate.data;
   const keys:any[] = jwks.keys;
 
-  console.log("jwks - "+util.inspect(jwks, false, null, true));
+  //console.log("jwks - "+util.inspect(jwks, false, null, true));
 
   // Decode the JWT and grab the kid property from the header.
   const jwt: Jwt = decode(token, { complete: true }) as Jwt
@@ -82,7 +82,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   certValue = certValue.match(/.{1,64}/g).join('\n');
   const finalCertKey:string = `-----BEGIN CERTIFICATE-----\n${certValue}\n-----END CERTIFICATE-----\n`;
 
-  console.log("finalCertKey - "+util.inspect(finalCertKey, false, null, true));
+  //console.log("finalCertKey - "+util.inspect(finalCertKey, false, null, true));
 
   //verify
   let jwtPayload:JwtPayload = verify(token, finalCertKey, { algorithms: ['RS256'] }) as JwtPayload; 

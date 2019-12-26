@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "d6195391-243f-4930-a542-a5e5689c7544",
+		"name": "serverless-petclinic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PetOwner",
+			"item": [
+				{
+					"name": "addNewPetOwner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Pratik\",\n    \"lastName\": \"Shah\",\n    \"address\": \"Borivali\",\n    \"city\": \"Mumbai\",\n    \"telephone\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalid_addNewPetOwner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Krushangi\",\n    \"lastName\": \"Shah\",\n    \"address\": \"Borivali\",\n    \"telephone\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePetOwner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ownerId\": \"b7e02353-ddf2-4243-b577-982b89a66702\",\n\t\"firstName\": \"Viral\",\n    \"lastName\": \"Haria\",\n    \"address\": \"Tejpal scheme Rd 1\",\n    \"city\": \"Vile Parle\",\n    \"telephone\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners/b7e02353-ddf2-4243-b577-982b89a66702",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners",
+								"b7e02353-ddf2-4243-b577-982b89a66702"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOwnerInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{apiHost}}/owners/b7e02353-ddf2-4243-b577-982b89a66702",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners",
+								"b7e02353-ddf2-4243-b577-982b89a66702"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllOwnersInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{apiHost}}/owners",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "addNewPet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"petName\": \"tyson\",\n    \"dob\": \"2019-11-1\",\n    \"type\": \"dog\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners/3032e585-f980-4c8a-9e48-05fe29b82fd4/pets",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners",
+								"3032e585-f980-4c8a-9e48-05fe29b82fd4",
+								"pets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalid_addNewPet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"petName\": \"mosheee\",\n    \"dob\": \"1-11-2017\",\n    \"type\": \"bird\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners/b7e02353-ddf2-4243-b577-982b89a66702/pets",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners",
+								"b7e02353-ddf2-4243-b577-982b89a66702",
+								"pets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"petName\": \"leo\",\n    \"type\": \"cat\",\n    \"dob\": \"2018-11-1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{apiHost}}/owners/b7e02353-ddf2-4243-b577-982b89a66702/pets/pet_d9600590-11a5-4357-a8af-d5a02b3d5a63",
+							"protocol": "https",
+							"host": [
+								"{{apiHost}}"
+							],
+							"path": [
+								"owners",
+								"b7e02353-ddf2-4243-b577-982b89a66702",
+								"pets",
+								"pet_d9600590-11a5-4357-a8af-d5a02b3d5a63"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "getAllVetsInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiHost}}/vets",
+					"protocol": "https",
+					"host": [
+						"{{apiHost}}"
+					],
+					"path": [
+						"vets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addNewVisit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"visitDate\": \"2019-12-1\",\n    \"visitDesc\": \"throat infection\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiHost}}/owners/b7e02353-ddf2-4243-b577-982b89a66702/pets/62f5baaa-2fd8-4430-b946-ac2ddbdd0324/visits",
+					"protocol": "https",
+					"host": [
+						"{{apiHost}}"
+					],
+					"path": [
+						"owners",
+						"b7e02353-ddf2-4243-b577-982b89a66702",
+						"pets",
+						"62f5baaa-2fd8-4430-b946-ac2ddbdd0324",
+						"visits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth0Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://udagram-serverless.auth0.com/authorize?response_type=token&client_id=9XYDaaE8cB7byIrrIeH4kuUYMTdzDm6r&redirect_uri=http://localhost:3000/callback&scope=read:tests&audience=https://udagram-serverless.auth0.com/api/v2/&state=xyzABC123&nonce=eq...hPmz\"",
+					"protocol": "https",
+					"host": [
+						"udagram-serverless",
+						"auth0",
+						"com"
+					],
+					"path": [
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "response_type",
+							"value": "token"
+						},
+						{
+							"key": "client_id",
+							"value": "9XYDaaE8cB7byIrrIeH4kuUYMTdzDm6r"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/callback"
+						},
+						{
+							"key": "scope",
+							"value": "read:tests"
+						},
+						{
+							"key": "audience",
+							"value": "https://udagram-serverless.auth0.com/api/v2/"
+						},
+						{
+							"key": "state",
+							"value": "xyzABC123"
+						},
+						{
+							"key": "nonce",
+							"value": "eq...hPmz\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ecf97169-3436-4c71-b834-f69eb76e0412",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cfca3ffc-94b8-4cea-9822-123955dfdd1d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "364d8074-f69c-4678-a53a-4bdf6bbcdb56",
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "7e4cb2a4-654d-414a-915f-2d719acfedf9",
+			"key": "apiHost",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
