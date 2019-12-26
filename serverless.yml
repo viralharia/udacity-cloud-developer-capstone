@@ -1,0 +1,252 @@
+service:
+  name: petclinic-serverless
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, 'ap-south-1'}
+  stage: ${opt:stage, 'dev'}
+
+  tracing:
+    lambda: true
+    apiGateway: true
+
+  
+
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    PETCLINIC_TABLE: PetClinic-${self:provider.stage}
+    PETCLINIC_TABLE_GLOBAL_INDEX_NAME: PetClinin-Global-Index-${self:provider.stage}
+    
+
+functions:
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+
+  AddOwners:
+    handler: src/lambda/http/addOwner.handler
+    events:
+      - http:
+          method: post
+          path: owners
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(schema_models/create-owner-request.json)}
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}    
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"
+
+  EditOwner:
+    handler: src/lambda/http/editOwner.handler
+    events:
+      - http:
+          method: put
+          path: owners/{ownerId}
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(schema_models/create-owner-request.json)}
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"
+  
+
+  GetOwnerInfo:
+    handler: src/lambda/http/getOwnerInfo.handler
+    events:
+      - http:
+          method: get
+          path: owners/{ownerId}
+          cors: true
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:Query
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}/index/${self:provider.environment.PETCLINIC_TABLE_GLOBAL_INDEX_NAME}
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"  
+
+  GetAllOwners:
+    handler: src/lambda/http/getAllOwners.handler
+    events:
+      - http:
+          method: get
+          path: owners
+          cors: true          
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}/index/${self:provider.environment.PETCLINIC_TABLE_GLOBAL_INDEX_NAME}
+      - Effect: Allow
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource: 
+          - "*"
+
+  AddPet:
+    handler: src/lambda/http/addPet.handler
+    events:
+      - http:
+          method: post
+          path: owners/{ownerId}/pets
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(schema_models/create-pet-request.json)}
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"
+
+  EditPet:
+    handler: src/lambda/http/editPet.handler
+    events:
+      - http:
+          method: put
+          path: owners/{ownerId}/pets/{petId}
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(schema_models/create-pet-request.json)}
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:UpdateItem
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"
+
+  GetAllVets:
+    handler: src/lambda/http/getAllVets.handler
+    events:
+      - http:
+          method: get
+          path: vets
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}/index/${self:provider.environment.PETCLINIC_TABLE_GLOBAL_INDEX_NAME}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+      - Effect: Allow
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource: 
+          - "*"
+
+  AddVisit:
+    handler: src/lambda/http/addVisit.handler
+    events:
+      - http:
+          method: post
+          path: owners/{ownerId}/pets/{petId}/visits
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(schema_models/create-visit-request.json)}
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PETCLINIC_TABLE}
+    - Effect: Allow
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource: 
+        - "*"
+
+resources:
+  Resources:
+    # TODO: Add any necessary AWS resources
+    PetClinicTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: parition_key
+            AttributeType: S
+          - AttributeName: sort_key
+            AttributeType: S
+          - AttributeName: data
+            AttributeType: S
+        KeySchema:
+          - AttributeName: parition_key
+            KeyType: HASH
+          - AttributeName: sort_key
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.PETCLINIC_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.PETCLINIC_TABLE_GLOBAL_INDEX_NAME}
+            KeySchema:
+              - AttributeName: sort_key
+                KeyType: HASH
+              - AttributeName: data
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index

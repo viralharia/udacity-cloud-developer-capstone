@@ -1,0 +1,17 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "visit",
+    "required": ["visitDate","visitDesc"],
+    "additionalProperties": false,
+    "properties": {
+      "visitDate": {
+        "type": "string",
+        "pattern": "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])"       
+      },
+      "visitDesc": {
+        "type": "string"        
+      }
+    }
+  }
